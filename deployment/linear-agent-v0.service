@@ -1,0 +1,18 @@
+[Unit]
+Description=V0 Linear Agent
+After=network.target
+
+[Service]
+Type=simple
+User=fraser
+WorkingDirectory=/home/fraser/services/linear-agent-v0
+EnvironmentFile=/home/fraser/services/linear-agent-v0/.env
+ExecStart=/usr/bin/node index.js
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=linear-agent-v0
+
+[Install]
+WantedBy=multi-user.target

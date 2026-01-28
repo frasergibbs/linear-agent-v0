@@ -1,0 +1,7 @@
+tunnel: <TUNNEL_ID>
+credentials-file: /home/fraser/.cloudflared/<TUNNEL_ID>.json
+
+ingress:
+  - hostname: linear-agent.fraserandsam.com
+    service: http://localhost:3324
+  - service: http_status:404
