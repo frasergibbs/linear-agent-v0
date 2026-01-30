@@ -105,6 +105,9 @@ LINEAR_V0_AGENT_USER_ID=${agentUserId}
  */
 app.post('/webhook/linear', verifyLinearWebhook, async (req, res) => {
     try {
+        // Debug: log raw payload structure
+        console.log('📦 Raw webhook payload:', JSON.stringify(req.body, null, 2));
+
         await handleLinearWebhook(req.body);
         res.status(200).json({ received: true });
     } catch (error) {
