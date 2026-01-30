@@ -59,16 +59,24 @@ export function verifyLinearWebhook(req, res, next) {
 /**
  * Extract webhook event type and action from Linear payload
  * 
+ * For Agent events (AgentSessionEvent), the agentSession is at the 
+ * top level of the payload, not nested inside a 'data' object.
+ * 
  * @param {Object} payload - Linear webhook payload
  * @returns {{type: string, action: string, data: Object}}
  */
 export function parseLinearWebhook(payload) {
-    const { type, action, data } = payload;
+    const { type, action, data, agentSession } = payload;
+
+    // For AgentSessionEvent, extract agentSession from top level
+    const eventData = agentSession
+        ? { agentSession }
+        : data;
 
     return {
-        type,        // e.g., 'Issue', 'Comment'
-        action,      // e.g., 'create', 'update', 'remove'
-        data,        // Event-specific data
+        type,        // e.g., 'Issue', 'AgentSessionEvent'
+        action,      // e.g., 'create', 'update', 'created', 'prompted'
+        data: eventData,
         webhookId: payload.webhookId,
         createdAt: payload.createdAt
     };
